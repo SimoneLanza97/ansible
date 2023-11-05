@@ -54,28 +54,26 @@ In questo modo si potrà eseguire il comando con i privilegi di ammistratore sen
 ## playbooks 
 
 I playbooks sono dei file YAML che ci consentono eseguire con Ansible un blocco di attività sui server remoti , in maniera da poter automatizzare serie intere di operazioni in maniera replicabile.
-I playbooks hanno uno schema e una sintassi predefiniti , di seguito la struttura base di un playbook con i le spiegazioni dei vari campi 
+I playbooks hanno uno schema e una sintassi predefiniti , di seguito la struttura base di un playbook con le spiegazioni dei vari campi 
 
     ---
 
     - name:                 # Nome del playbook
       hosts:                # Gruppo_di_host
-      become:               # Imposta su true se hai bisogno di privilegi di amministratore (sudo
+      become:               # Imposta su true se hai bisogno di privilegi di amministratore (sudo)
+    
       vars:                 # Variabili specifiche del playbook
         variabile1: 
         variabile2:
+    
       tasks:
-        - name:                 # Nome della task
-          debug:
-            msg:                # "Messaggio di debug o comando da eseguire
-        - name:                 # Altra task
-          become:               # Puoi impostare i privilegi di amministratore per una task specifica (yes)
-          shell:                # "Comando da eseguire"
-          
-        - name:                 # Ancora un'altra task
-          command:
-            cmd:                # "Comando da eseguire"
-          ignore_errors:        # Puoi ignorare gli errori se necessari
+        - name:                 # modulo che utilizza moduli integrati come apt 
+          apt:                  # nome del modulo integrato apt (è un oggetto che contiene dentro di se gli elementi indentati)
+            update_cache:       # yes per fare update
+        
         - name:                 # Task che utilizza le variabili
           debug:
             msg:                # "Valore della variabile1: {{ variabile1 }}, Valore della variabile2: {{ variabile2 }}" 
+
+
+Puoi vedere il file playbooks/playbooks_exxample.yml per esempi più completi.
