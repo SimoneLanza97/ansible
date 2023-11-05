@@ -1,0 +1,8 @@
+---
+
+- name: Esegui comando Bash su server
+  hosts: workers 
+  tasks:
+    - name: Esegui comando Bash
+      become: yes  # Se necessario per ottenere privilegi di amministratore
+      shell: "docker system prune -f"

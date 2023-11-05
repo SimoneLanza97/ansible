@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:alpine3.17
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres 
+    ports:
+      - 5433:5432
+    networks:
+      - mynetwork 
+    volumes:
+      - pg-volume:/var/lib/postgres/data
+      - "./initdb:/docker-entrypoint-initdb.d" 
+    logging:
+      options:
+        max-size: '50m'
+
+  pgadmin :
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: docker@example.com
+      PGADMIN_DEFAULT_PASSWORD: password123
+      PGADMIN_LISTEN_PORT: 8081
+    ports:
+     - 8081:8081
+    networks:
+      - mynetwork 
+   
+#  nginx:
+#    image: nginx:latest
+#    ports:
+#      - 80:80
+#    networks:
+#      - mynetwork
+#    depends_on:
+#      - pgadmin
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/nginx.conf
+ 
+  postgrest:
+    image: postgrest/postgrest 
+    environment:
+      PGRST_DB_URI: postgres://authenticator:password@postgres:5432/postgres
+      PGRST_DB_SCHEMAS: api 
+      PGRST_ANON_ROLE: web_anon 
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
+    volumes:
+      - pgt-volume:/var/lib/postgrest/data
+
+
+networks:
+  mynetwork: 
+volumes:
+  pg-volume: 
+  nginx.conf:
+  pgt-volume:
+  
