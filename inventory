@@ -1,4 +1,8 @@
+
+[managers]
 ubuntu@192.168.1.101
+
+[workers]
 ubuntu@192.168.1.102
 ubuntu@192.168.1.103
 

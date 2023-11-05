@@ -1,0 +1,74 @@
+version: '3.8'
+services:  
+  postgres: 
+    image: postgres:16.0-alpine3.18
+    ports: 
+      - 5432:5433
+    environment:
+      - POSTGRES_USER=pippo  #sempre in /run/secrets/ 
+      - POSTGRES_PASSWORD_FILE=/run/secrets/pg-password 
+    secrets:
+      - pg-password
+    networks:
+      - network2
+    volumes:
+      - volume_postgres:/var/lib/postgresql/data
+    configs:
+      - source: myconf
+        target: /tmp/Vagrantfile 
+    
+    deploy:
+      replicas: 1
+
+  pgadmin:
+    image: dpage/pgadmin4:7.8
+    labels: 
+      - customers=311Verona
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pippo@example.com
+      - PGADMIN_DEFAULT_PASSWORD=password123
+      - PGADMIN_LISTEN_PORT=8080
+    ports:
+      - 8080:8080
+    volumes:
+      - volume_pgadmin:/var/lib/pgadmin
+    networks:
+      - network2
+    depends_on: 
+      - postgres  
+    deploy:
+      replicas: 1
+  
+  postgrest:
+    image: bitnami/postgrest:11.2.2
+    environment:
+      PGRST_DB_URI: postgres://pippo:ksnV93DZh9WzEA0mCDe+VDTObjg=@postgres:5432/pippo
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    networks:
+      - network2
+    volumes:
+      - pgt-volume:/var/lib/postgrest/data
+    deploy:
+      replicas: 1 
+
+   
+
+
+networks:
+  network2:
+volumes:
+  volume_postgres:
+  volume_pgadmin:
+  pgt-volume:
+secrets:
+  pg-password:
+    external: true 
+configs:
+  myconf:
+    file: ./Vagrantfile
+# attenzione ai volumi 
+# variabili vengono inizializzate solo quando creiamo lo stack 
+# esiste la config , che prende un file e fa lo sharing dentro ad uno o più container 

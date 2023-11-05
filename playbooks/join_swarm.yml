@@ -1,0 +1,8 @@
+---
+- name: Esegui comando Bash su server
+  hosts: workers 
+  tasks:
+    - name: Esegui comando Bash
+      become: yes  # Se necessario per ottenere privilegi di amministratore
+      shell: "docker swarm join --token SWMTKN-1-3sftpi4ggsake130wpj8gb4xl6u9tlsppwdar60gz6yh6ya1e4-3l9q1ne1j2nqwtgk1jgvzm5xy 192.168.1.101:2377"
+

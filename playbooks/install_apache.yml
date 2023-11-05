@@ -1,0 +1,17 @@
+---
+
+- hosts: all 
+  become: true 
+  tasks:
+
+  - name: apt update
+    apt:
+      update_cache: yes 
+  
+
+  - name: install apache2 package #il nome è a scelta propria , noi lo usiamo in maniera descrittiva 
+    apt: 
+      name: apache2
+
+
+

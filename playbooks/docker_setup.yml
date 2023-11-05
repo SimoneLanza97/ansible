@@ -1,0 +1,19 @@
+---
+
+
+- name: setup docker con script.sh 
+  hosts: all 
+  tasks:
+    - name: Copia lo script
+      copy: 
+        src: ./docker_setup.sh  # Percorso locale dello script
+        dest: /home/ubuntu/docker_setup.sh   # Percorso remoto sul server
+
+    - name: dai i permessi
+      command: chmod +x /home/ubuntu/docker_setup.sh 
+
+
+    - name: Esegui lo script
+      shell: /home/ubuntu/docker_setup.sh 
+
+    
