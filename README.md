@@ -31,3 +31,23 @@ Nel file ansible.cfg andiamo ad inserire alcune specifiche come il path del file
 Lo stesso comando usato in precedenza ora possiamo utilizzarlo cosi :
 
     ansible all -m ping 
+
+
+## sudo mode 
+
+Molti dei comandi che potremmo voler eseguire sui server potrebbero richiedere di essere eseguiti con privilegi di amministratore, come ad esempio un semplice "apt update".
+Di fatti , se noi eseguiamo un aggiornamento dei pacchetti sui server in questo modo
+
+    ansible all -m apt -a update_cache=true 
+il comando fallirà perchè non avremo i privilegi per eseguire quel tipo di comando.
+Per poter eseguire un comando con privilegi di amministratore usiamo l'opzione "--become" che serve per eseguire il comando come amministratore, in questo modo :
+
+    ansible all -m apt -a update_cache=true --become 
+
+In questo modo si potrà eseguire il comando con i privilegi di ammistratore senza dover inserire la password, se invece volessimo inserire la password di amministratore per eseguire i comandi allora digiteremmo il seguente comando: 
+
+    ansible all -m apt -a update_cache=true --become --ask-become-pass
+
+--ask-become-pass ci obbliga ad inserire la password di amministratore dei server a cui vogliamo connetterci per eseguire il comando con privilegi, attenzione però che se su diversi server abbiamo diverse password di ammistratore , il comando fallirà , il consiglio è quello di tenere le stesse password di amministratore per il gruppo di server su cui vogliamo eseguire i nostri comandi 
+
+
