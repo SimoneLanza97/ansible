@@ -76,4 +76,4 @@ I playbooks hanno uno schema e una sintassi predefiniti , di seguito la struttur
             msg:                # "Valore della variabile1: {{ variabile1 }}, Valore della variabile2: {{ variabile2 }}" 
 
 
-Puoi vedere il file playbooks/playbooks_exxample.yml per esempi più completi.
+Puoi vedere il file playbooks/playbooks_example.yml per esempi più completi.
