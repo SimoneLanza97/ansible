@@ -16,9 +16,9 @@ services:
     configs:
       - source: myconf
         target: /tmp/Vagrantfile 
-    
     deploy:
       replicas: 1
+
 
   pgadmin:
     image: dpage/pgadmin4:7.8
@@ -39,6 +39,7 @@ services:
     deploy:
       replicas: 1
   
+
   postgrest:
     image: bitnami/postgrest:11.2.2
     environment:
@@ -65,6 +66,8 @@ volumes:
   pgt-volume:
 secrets:
   pg-password:
+    external: true 
+  pgrst-uri:
     external: true 
 configs:
   myconf:

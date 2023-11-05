@@ -51,3 +51,31 @@ In questo modo si potrà eseguire il comando con i privilegi di ammistratore sen
 --ask-become-pass ci obbliga ad inserire la password di amministratore dei server a cui vogliamo connetterci per eseguire il comando con privilegi, attenzione però che se su diversi server abbiamo diverse password di ammistratore , il comando fallirà , il consiglio è quello di tenere le stesse password di amministratore per il gruppo di server su cui vogliamo eseguire i nostri comandi 
 
 
+## playbooks 
+
+I playbooks sono dei file YAML che ci consentono eseguire con Ansible un blocco di attività sui server remoti , in maniera da poter automatizzare serie intere di operazioni in maniera replicabile.
+I playbooks hanno uno schema e una sintassi predefiniti , di seguito la struttura base di un playbook con i le spiegazioni dei vari campi 
+
+    ---
+
+    - name:                 # Nome del playbook
+      hosts:                # Gruppo_di_host
+      become:               # Imposta su true se hai bisogno di privilegi di amministratore (sudo
+      vars:                 # Variabili specifiche del playbook
+        variabile1: 
+        variabile2:
+      tasks:
+        - name:                 # Nome della task
+          debug:
+            msg:                # "Messaggio di debug o comando da eseguire
+        - name:                 # Altra task
+          become:               # Puoi impostare i privilegi di amministratore per una task specifica (yes)
+          shell:                # "Comando da eseguire"
+          
+        - name:                 # Ancora un'altra task
+          command:
+            cmd:                # "Comando da eseguire"
+          ignore_errors:        # Puoi ignorare gli errori se necessari
+        - name:                 # Task che utilizza le variabili
+          debug:
+            msg:                # "Valore della variabile1: {{ variabile1 }}, Valore della variabile2: {{ variabile2 }}" 

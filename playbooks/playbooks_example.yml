@@ -1,0 +1,23 @@
+---
+
+- name:                 # Nome del playbook
+  hosts:                # Gruppo_di_host
+  become:               # Imposta su true se hai bisogno di privilegi di amministratore (sudo
+  vars:                 # Variabili specifiche del playbook
+    variabile1: 
+    variabile2:
+  tasks:
+    - name:                 # Nome della task
+      debug:
+        msg:                # "Messaggio di debug o comando da eseguire
+    - name:                 # Altra task
+      become:               # Puoi impostare i privilegi di amministratore per una task specifica (yes)
+      shell:                # "Comando da eseguire"
+      
+    - name:                 # Ancora un'altra task
+      command:
+        cmd:                # "Comando da eseguire"
+      ignore_errors:        # Puoi ignorare gli errori se necessari
+    - name:                 # Task che utilizza le variabili
+      debug:
+        msg:                # "Valore della variabile1: {{ variabile1 }}, Valore della variabile2: {{ variabile2 }}" 
