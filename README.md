@@ -2,7 +2,7 @@
 
 Per usare ansible su dei server remoti abbiamo la necessità di creare una chiave ssh e condividere la chiave pubblica sui server di destinazione .
 
-#creiamo la chiave i
+#creiamo la chiave 
 
     ssh-keygen -t ed25519 -C "ansible" -> salviamo la chiave con il nome che preferiamo al path /home/utente/.ssh/<nome_chiave>
 
