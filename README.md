@@ -2,16 +2,16 @@
 
 Per usare ansible su dei server remoti abbiamo la necessità di creare una chiave ssh e condividere la chiave pubblica sui server di destinazione .
 
-#creiamo la chiave 
+## creiamo la chiave 
 
-    ssh-keygen -t ed25519 -C "ansible" -> salviamo la chiave con il nome che preferiamo al path /home/utente/.ssh/<nome_chiave>
+    ssh-keygen -t ed25519 -C "ansible" #salviamo la chiave con il nome che preferiamo al path /home/utente/.ssh/<nome_chiave>
 
-#condividiamo la chiave     
+## condividiamo la chiave     
 
     ssh-copy-id -i /home/lanza/.ssh/<nome_chiave>.pub <nome_utente>@<ip del server>
 
 
-#inventory file
+## inventory file
 
 il file "inventory" contiene gli indirizzi delle macchine a cui ci connettiammo con ansible 
 
@@ -22,7 +22,7 @@ Quando lanciamo un comando con ansible dobbiamo specificare il file di inventory
 
 
 
-#ansible.cfg file
+## ansible.cfg file
 
 Il file ansible.cfg potrebbe già esistere nel path /etc/ansible , ma in ogni caso scrivendolo in locale lo andiamo a sovrascrivere , ovvero il file locale ha la priorità su quello in /etc/ansible 
 
