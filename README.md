@@ -77,3 +77,13 @@ I playbooks hanno uno schema e una sintassi predefiniti , di seguito la struttur
 
 
 Puoi vedere il file playbooks/playbooks_example.yml per esempi più completi.
+
+## La clausola when 
+
+All'interno di un playbook possiamo inserire il parametro when che ci permette di usare una qualsiasi condizione (puo essere una variabile o un fattore di raccolta come quelli inclusi in gathering_facts) per eseguire determinate azioni solo sugli host che soddisfano la nostra condizione. 
+
+    - name: install apache2 package  
+      apt: 
+        name: apache2
+        state: absent
+      when: ansible_nodename == "mac-03" # clausola che ci permette di effettuare l'operazione solo sul nodo chiamato  mac-03
