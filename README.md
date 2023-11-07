@@ -87,3 +87,27 @@ All'interno di un playbook possiamo inserire il parametro when che ci permette d
         name: apache2
         state: absent
       when: ansible_nodename == "mac-03" # clausola che ci permette di effettuare l'operazione solo sul nodo chiamato  mac-03
+
+## Le variabili 
+
+Ansible ci permette di utilizzare delle variabili all'interno dei nostri playbook per poter definire determinate azioni .
+Per poter essere utilizzate le variabili necessitano di essere salvate o dentro il file di inventory o dentro ad un file delle variabili o dentro il playbook stesso.
+Ci sono varirabili interne di Ansible che possono essere utilizzate universalmente senza il bisogno di crearle e salvarle , come ad esempio la variabile 
+'package' che puo essere usata in sostituzione alla specificazione del package_manager da utilizzare , se per esempio avessimo un playbook che effettua 
+azioni su server con sistemi operativi diversi possiamo usare per tutti la variabile 'package' per tutti invece di specificare ogni signolo 
+pkg_manager per ogni server .
+
+    ---
+    - name: playbook 
+      hosts: all 
+      become: yes
+      tasks:
+        - name: aggiornamento update
+        package: 
+          update_cache: yes 
+
+Questo piccolo esempio ci permette di effettuare un aggiornamento dei pacchetti su tutti i server di destinazione anche se questi hanno diversi sistemi operativi 
+invece di specificare apt , yum , dnf o pacman ecc... usiamo la variabile package per rappresentare il pkg_manager di riferimento e usare l'azione 'update_cache'
+che è usata con una sintassi universale di ansible valida per ogni pkg_manager. 
+Inoltre questo ci permette di scrivere un playbook più corto perchè altrimenti dovrei scrivere più task separate e si riduce anche il tempo di esecuzione del playbook stesso. 
+
