@@ -111,3 +111,61 @@ invece di specificare apt , yum , dnf o pacman ecc... usiamo la variabile packag
 che è usata con una sintassi universale di ansible valida per ogni pkg_manager. 
 Inoltre questo ci permette di scrivere un playbook più corto perchè altrimenti dovrei scrivere più task separate e si riduce anche il tempo di esecuzione del playbook stesso. 
 
+Per quello che rigurda le variabili create da noi invece , nel caso più semplice possimo salvarle dentro al playbook in questione , ma nel caso in cui volessimo tenere fisse delle variabili per riutilizzarle allo stesso modo in playbook diversi , possiamo invece salvarle dentro al file inventory.
+Dentro il file inventory le variabili vengono assegnate direttamente agli host (o ai gruppi di host ma questo lo vedremo tra poco), ecco un esempio di come le variabili vengono assegnate ai singoli host nel file inveontory 
+
+     192.168.56.10 apache_package=apache2 
+     192.168.56.11 apache_package=apache2 
+     192.168.56.12 apache_package=apache    #su server con distribuzioni diverse il pacchetto puo avere nomi diversi 
+
+In questo semplicissimo esempio andiamo a definire per i nostri host che la variabile apache_package verrà usata per delineare il pacchetto apache2/apache che sono due nomi differenti per definire il pacchetto contenente apache2 su diverse distruzioni linux , e ora potremmo usare per tutti i nostri server differenti il nome apache_package al posto di dover scrivere un nome differente del pacchetto per ogni server differente.
+
+## gestione dei gruppi di nodi 
+
+Dentro al file inventory possiamo avere una grande quantità di nodi registrati , e potremmo avere esigenze diverse riguardo ai diversi nodi in base a diverse variabili , per esempio potremmo avere dei db_servers , dei file_servers , web_servers e cosi via .. e su questi server necessiteranno da parte nostra diversi interventi .
+Per affrontare questa problematica senza dover eseguire più playbook , ansible ci da la possibilità di creare dei gruppi e dividere tra questi gli host in maniera molto semplice.
+Per farlo ci basta andare nel file inventory creare i gruppi dichiarandoli tra parentesi [] e inserire al di sotto del gruppo gli indirizzi dei nodi che ne faranno parte .
+
+    [servers_ubuntu]
+    192.168.1.1
+    192.168.1.2
+    192.168.1.3
+    192.168.1.4
+    [servers_centOS]
+    192.168.1.11
+    192.168.1.12
+    192.168.1.13
+    192.168.1.14
+    
+In questo modo poi potremmo scrivere un playbook che vada a svolgere azioni mirate ai nodi di un determinato gruppo e per farlo ci basta inserire il nome del gruppo nella voce 'hosts:'
+del playbook, in questo modo 
+
+    
+    ---
+    - name: playbook 
+      become: yes
+      tasks:
+        - name: aggiornamento update
+          hosts: servers_ubuntu  
+          package: 
+            update_cache: yes 
+        - name: aggiornamento update
+          hosts: servers_centOS  
+          package: 
+            update_only: yes 
+Inoltre , come annunciato precedentemente , possiamo salvare variabili per l'intero gruppo di host invece di specificare variabili uguali per ogni nodo , per farlo ci basta andare a definire nel file inventory un gruppo di variabili in questo modo 
+
+
+    [servers_ubuntu]
+    192.168.1.1
+    192.168.1.2
+    192.168.1.3
+    192.168.1.4
+
+    [servers_ubuntu.vars]
+    apache_package=apache2
+
+In questo modo andiamo a definire una variabile valida per un intero gruppo di host dichiarandola una sola volta 
+
+
+
