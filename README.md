@@ -103,8 +103,8 @@ pkg_manager per ogni server .
       become: yes
       tasks:
         - name: aggiornamento update
-        package: 
-          update_cache: yes 
+          package: 
+            update_cache: yes 
 
 Questo piccolo esempio ci permette di effettuare un aggiornamento dei pacchetti su tutti i server di destinazione anche se questi hanno diversi sistemi operativi 
 invece di specificare apt , yum , dnf o pacman ecc... usiamo la variabile package per rappresentare il pkg_manager di riferimento e usare l'azione 'update_cache'
