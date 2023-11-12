@@ -172,28 +172,26 @@ In questo modo andiamo a definire una variabile valida per un intero gruppo di h
 
 I tags non sono altro che delle etichette arbitrarie che diamo a determinati task o interi playbook , questo perchè vogliamo eseguire solamente determinati task o playbooks presenti del nostro file yaml e allora possiamo richiamare determinati tags  nel momento in cui andiamo ad eseguire un playbook per poter eseguire solo i task che hanno quel tag  
 
-  ---
-  
-  - name: tags explaination 
-    become: yes
-    hosts: all
-    tasks:
-  
-      - name: update 
-        package:
-          update_cache: yes
-        tags: update  
-  
-  - name: installing nginx with tags 
-    become: yes
-    hosts: all
-    tasks:
-  
-      - name: install nginx  
-        package:
-          name: nginx
-          state: latest 
-        tags: nginx 
+    ---
+      - name: tags explaination
+      become: yes
+      hosts: all
+      tasks:
+          - name: update 
+          package:
+            update_cache: yes
+          tags: update  
+
+    - name: installing nginx with tags 
+      become: yes
+      hosts: all
+      tasks:
+
+        - name: install nginx  
+          package:
+            name: nginx
+            state: latest 
+          tags: nginx 
   
 se eseguiamo questo playbook possiamo andare a definire i tag che vogliamo seguire ed eseguire solo i task con i tag indicati, in questo modo:
 
