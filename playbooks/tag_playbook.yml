@@ -1,0 +1,22 @@
+---
+
+- name: tags explaination 
+  become: yes
+  hosts: all
+  tasks:
+
+    - name: update 
+      package:
+        update_cache: yes
+      tags: update  
+
+- name: installing nginx with tags 
+  become: yes
+  hosts: all
+  tasks:
+
+    - name: install nginx  
+      package:
+        name: nginx
+        state: latest 
+      tags: nginx 
